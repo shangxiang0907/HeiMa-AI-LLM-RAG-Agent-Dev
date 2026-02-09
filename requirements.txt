@@ -1,2 +1,9 @@
 openai>=1.0.0
 python-dotenv>=1.0.0
+
+# LangChain相关包
+langchain==1.2.9
+langchain-community==0.4.1
+langchain-ollama==1.0.1
+dashscope==1.25.11
+chromadb==1.4.1
