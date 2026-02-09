@@ -85,3 +85,6 @@ coverage.xml
 
 # Python 打包
 *.pyz
+
+# 其它环境生成的目录
+share/
