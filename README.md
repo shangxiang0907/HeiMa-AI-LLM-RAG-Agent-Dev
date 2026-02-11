@@ -55,6 +55,14 @@ All source code and examples are my own notes and practice code, not the officia
   - 需要自行配置对应的大模型平台 API Key（如 OpenAI、阿里云通义等）。  
     You need to configure your own API keys for LLM providers (OpenAI, Tongyi, etc.).
 
+- **安装依赖 Install Dependencies**
+  - 首次使用前，请先安装项目所需的 Python 依赖包：  
+    Before running any scripts, please install the required Python packages:
+  
+```bash
+pip install -r requirements.txt
+```
+
 - **运行方式 How to Run**
   - 进入 Devbox 开发环境后，可直接运行单个示例脚本，例如：  
     After entering the Devbox environment, you can run any script directly, e.g.:
