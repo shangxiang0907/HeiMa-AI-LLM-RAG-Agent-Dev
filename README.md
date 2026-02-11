@@ -43,6 +43,10 @@ All source code and examples are my own notes and practice code, not the officia
     **14_LangChain_Message_Shorthand.py**: LangChain message classes and shorthand syntax.
   - **`15_LangChain_Embeddings_DashScope.py`**：向量化与 DashScope Embeddings 示例，为后续 RAG 做准备  
     **15_LangChain_Embeddings_DashScope.py**: Embeddings with DashScope for RAG.
+  - **`16_LangChain_PromptTemplate_Tongyi.py`**：通用提示词模板（PromptTemplate）在通义模型上的用法示例  
+    **16_LangChain_PromptTemplate_Tongyi.py**: PromptTemplate examples with Tongyi.
+  - **`17_LangChain_FewShot_PromptTemplate.py`**：FewShot 提示词模板示例，展示如何通过多个示例构造少样本提示词  
+    **17_LangChain_FewShot_PromptTemplate.py**: Few-shot prompt template examples using FewShotPromptTemplate.
 
 > 后续若继续跟随课程实现 RAG 检索增强问答、Agent 智能体、多工具编排等内容，会在该目录下持续补充脚本与说明。  
 > As I progress through the course (RAG pipelines, Agents, tool calling, etc.), more scripts and notes will be added under this directory.
