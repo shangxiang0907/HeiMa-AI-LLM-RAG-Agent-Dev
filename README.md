@@ -13,40 +13,23 @@ All source code and examples are my own notes and practice code, not the officia
 ## 目录结构 Directory Structure
 
 - **`AI_LLM_RAG_Agent_Dev/`**：课程相关代码与练习（个人笔记）
-  - **`01_TestApiKey.py`**：测试大模型 / 平台 API Key 是否可用  
-    **01_TestApiKey.py**: Test script to verify LLM / platform API keys.
-  - **`02_OpenAI_Library_Basic_Usage.py`**：OpenAI / 通义等大模型基础调用示例  
-    **02_OpenAI_Library_Basic_Usage.py**: Basic usage examples for LLM SDKs.
-  - **`03_OpenAI_Library_Stream_Output.py`**：流式输出（streaming）示例  
-    **03_OpenAI_Library_Stream_Output.py**: Streaming response examples.
-  - **`04_OpenAI_Library_With_History.py`**：带历史记忆的对话示例  
-    **04_OpenAI_Library_With_History.py**: Chat with conversation history.
-  - **`05_Financial_Text_Classification.py`**：金融文本分类案例  
-    **05_Financial_Text_Classification.py**: Financial text classification demo.
-  - **`06_JSON_Usage_Demo.py`**：使用大模型生成结构化 JSON 数据示例  
-    **06_JSON_Usage_Demo.py**: Structured JSON output from LLMs.
-  - **`07_Information_Extraction_FewShot.py`**：少样本信息抽取  
-    **07_Information_Extraction_FewShot.py**: Few-shot information extraction.
-  - **`08_Lottery_Information_Extraction.py`**：彩票信息抽取实战案例  
-    **08_Lottery_Information_Extraction.py**: Lottery information extraction demo.
-  - **`09_Text_Matching_FewShot.py`**：文本匹配 / 相似度少样本示例  
-    **09_Text_Matching_FewShot.py**: Few-shot text matching examples.
-  - **`10_Cosine_Similarity_Algorithm.py`**：余弦相似度算法与向量检索基础  
-    **10_Cosine_Similarity_Algorithm.py**: Cosine similarity and basic vector search.
-  - **`11_LangChain_Tongyi_Basic_Usage.py`**：LangChain + 通义 千问 基础用法  
-    **11_LangChain_Tongyi_Basic_Usage.py**: Basic LangChain usage with Tongyi Qianwen.
-  - **`12_LangChain_Tongyi_Stream_Output.py`**：LangChain 流式输出示例  
-    **12_LangChain_Tongyi_Stream_Output.py**: Streaming with LangChain and Tongyi.
-  - **`13_LangChain_Tongyi_Chat_Model.py`**：LangChain ChatModel 配置与调用  
-    **13_LangChain_Tongyi_Chat_Model.py**: Using LangChain chat models.
-  - **`14_LangChain_Message_Shorthand.py`**：LangChain 消息对象与简写语法  
-    **14_LangChain_Message_Shorthand.py**: LangChain message classes and shorthand syntax.
-  - **`15_LangChain_Embeddings_DashScope.py`**：向量化与 DashScope Embeddings 示例，为后续 RAG 做准备  
-    **15_LangChain_Embeddings_DashScope.py**: Embeddings with DashScope for RAG.
-  - **`16_LangChain_PromptTemplate_Tongyi.py`**：通用提示词模板（PromptTemplate）在通义模型上的用法示例  
-    **16_LangChain_PromptTemplate_Tongyi.py**: PromptTemplate examples with Tongyi.
-  - **`17_LangChain_FewShot_PromptTemplate.py`**：FewShot 提示词模板示例，展示如何通过多个示例构造少样本提示词  
-    **17_LangChain_FewShot_PromptTemplate.py**: Few-shot prompt template examples using FewShotPromptTemplate.
+  - **`01_TestApiKey.py`**：测试大模型 / 平台 API Key 是否可用（Test script to verify LLM / platform API keys.）
+  - **`02_OpenAI_Library_Basic_Usage.py`**：OpenAI / 通义等大模型基础调用示例（Basic usage examples for LLM SDKs.）
+  - **`03_OpenAI_Library_Stream_Output.py`**：流式输出（streaming）示例（Streaming response examples.）
+  - **`04_OpenAI_Library_With_History.py`**：带历史记忆的对话示例（Chat with conversation history.）
+  - **`05_Financial_Text_Classification.py`**：金融文本分类案例（Financial text classification demo.）
+  - **`06_JSON_Usage_Demo.py`**：使用大模型生成结构化 JSON 数据示例（Structured JSON output from LLMs.）
+  - **`07_Information_Extraction_FewShot.py`**：少样本信息抽取（Few-shot information extraction.）
+  - **`08_Lottery_Information_Extraction.py`**：彩票信息抽取实战案例（Lottery information extraction demo.）
+  - **`09_Text_Matching_FewShot.py`**：文本匹配 / 相似度少样本示例（Few-shot text matching examples.）
+  - **`10_Cosine_Similarity_Algorithm.py`**：余弦相似度算法与向量检索基础（Cosine similarity and basic vector search.）
+  - **`11_LangChain_Tongyi_Basic_Usage.py`**：LangChain + 通义 千问 基础用法（Basic LangChain usage with Tongyi Qianwen.）
+  - **`12_LangChain_Tongyi_Stream_Output.py`**：LangChain 流式输出示例（Streaming with LangChain and Tongyi.）
+  - **`13_LangChain_Tongyi_Chat_Model.py`**：LangChain ChatModel 配置与调用（Using LangChain chat models.）
+  - **`14_LangChain_Message_Shorthand.py`**：LangChain 消息对象与简写语法（LangChain message classes and shorthand syntax.）
+  - **`15_LangChain_Embeddings_DashScope.py`**：向量化与 DashScope Embeddings 示例，为后续 RAG 做准备（Embeddings with DashScope for RAG.）
+  - **`16_LangChain_PromptTemplate_Tongyi.py`**：通用提示词模板（PromptTemplate）在通义模型上的用法示例（PromptTemplate examples with Tongyi.）
+  - **`17_LangChain_FewShot_PromptTemplate.py`**：FewShot 提示词模板示例，展示如何通过多个示例构造少样本提示词（Few-shot prompt template examples using FewShotPromptTemplate.）
 
 > 后续若继续跟随课程实现 RAG 检索增强问答、Agent 智能体、多工具编排等内容，会在该目录下持续补充脚本与说明。  
 > As I progress through the course (RAG pipelines, Agents, tool calling, etc.), more scripts and notes will be added under this directory.
