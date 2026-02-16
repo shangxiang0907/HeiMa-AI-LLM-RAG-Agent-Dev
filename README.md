@@ -59,9 +59,6 @@ cd /home/devbox/project/AI_LLM_RAG_Agent_Dev
 python 11_LangChain_Tongyi_Basic_Usage.py
 ```
 
-  - 若需要使用原有的启动脚本（如有保留 `entrypoint.sh`），也可以通过 `bash entrypoint.sh` 启动自定义流程。  
-    If you keep the original `entrypoint.sh`, you may still use `bash entrypoint.sh` to start your own workflows.
-
 ## 声明与目的 Disclaimer & Purpose
 
 - **学习用途**：本仓库仅用于个人学习与笔记整理，无任何商业用途。  
