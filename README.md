@@ -30,6 +30,15 @@ All source code and examples are my own notes and practice code, not the officia
   - **`15_LangChain_Embeddings_DashScope.py`**：向量化与 DashScope Embeddings 示例，为后续 RAG 做准备（Embeddings with DashScope for RAG.）
   - **`16_LangChain_PromptTemplate_Tongyi.py`**：通用提示词模板（PromptTemplate）在通义模型上的用法示例（PromptTemplate examples with Tongyi.）
   - **`17_LangChain_FewShot_PromptTemplate.py`**：FewShot 提示词模板示例，展示如何通过多个示例构造少样本提示词（Few-shot prompt template examples using FewShotPromptTemplate.）
+  - **`18_LangChain_PromptTemplate_Format_vs_Invoke.py`**：PromptTemplate 中 format 与 invoke 方法的对比示例（Comparison between format and invoke methods in PromptTemplate.）
+  - **`19_LangChain_ChatPromptTemplate.py`**：聊天提示词模板示例，演示如何使用 ChatPromptTemplate 和 MessagesPlaceholder 动态注入历史会话信息（ChatPromptTemplate examples with dynamic history injection using MessagesPlaceholder.）
+  - **`20_LangChain_ChatPromptTemplate_Chain_Call.py`**：链式调用示例，演示使用「|」运算符将提示词模板和模型链接成 chain（Chain call examples using the pipe operator to connect prompt templates and models.）
+  - **`21_LangChain_Chain_Operator_Overload.py`**：运算符重写示例，说明 LangChain 中「|」链式调用的底层原理（Operator overloading examples explaining how the pipe operator works in LangChain chains.）
+  - **`22_LangChain_Runnable_Base_Class.py`**：Runnable 抽象基类示例，演示 LangChain 核心组件的继承关系和链式调用机制（Runnable base class examples demonstrating the inheritance structure and chain mechanism.）
+  - **`23_LangChain_StrOutputParser.py`**：字符串输出解析器示例，演示如何将 AIMessage 转换为字符串以解决链式调用中的类型不匹配问题（StrOutputParser examples for converting AIMessage to string in chains.）
+  - **`24_LangChain_JsonOutputParser.py`**：JSON 输出解析器示例，演示如何将 AIMessage 转换为字典（JSON 格式）用于多模型链式调用（JsonOutputParser examples for converting AIMessage to JSON/dict in multi-model chains.）
+  - **`25_LangChain_RunnableLambda.py`**：RunnableLambda 示例，演示如何将自定义函数加入链中实现灵活的数据转换（RunnableLambda examples for adding custom functions to chains.）
+  - **`26_LangChain_Temporary_Session_Memory.py`**：临时会话记忆示例，演示如何使用 RunnableWithMessageHistory 和 InMemoryChatMessageHistory 实现带历史记录的对话（Temporary session memory examples using RunnableWithMessageHistory and InMemoryChatMessageHistory.）
 
 > 后续若继续跟随课程实现 RAG 检索增强问答、Agent 智能体、多工具编排等内容，会在该目录下持续补充脚本与说明。  
 > As I progress through the course (RAG pipelines, Agents, tool calling, etc.), more scripts and notes will be added under this directory.
