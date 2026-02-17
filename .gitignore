@@ -72,6 +72,9 @@ coverage.xml
 *.sqlite
 *.sqlite3
 
+# 聊天历史记录
+chat_history/
+
 # 临时文件
 *.tmp
 *.bak
