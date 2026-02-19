@@ -52,6 +52,11 @@ All source code and examples are my own notes and practice code, not the officia
 > 后续若继续跟随课程实现更复杂的 RAG 检索增强问答、Agent 智能体、多工具编排等内容，会在该目录下持续补充脚本与说明。  
 > As I progress through the course (more advanced RAG pipelines, Agents, tool orchestration, etc.), more scripts and notes will be added under this directory.
 
+- **`rag-clothing-customer-service/`**：RAG 项目 - 服装商品智能客服（RAG Project - Intelligent Customer Service for Clothing E-commerce）
+  - 基于 RAG（检索增强生成）技术的服装电商智能客服系统知识库
+  - 包含三个知识库文件：尺码推荐、洗涤养护、颜色选择指南
+  - A RAG-based knowledge base for intelligent customer service in clothing e-commerce, including guides for size recommendations, washing care, and color selection.
+
 ## 环境与运行 Environment & How to Run
 
 - **运行环境 Environment**
