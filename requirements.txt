@@ -3,7 +3,10 @@ python-dotenv>=1.0.0
 
 # LangChain相关包
 langchain==1.2.9
+langchain-core>=0.3.0
 langchain-community==0.4.1
 langchain-ollama==1.0.1
+langchain-chroma>=0.1.0
+langchain-text-splitters>=0.3.0
 dashscope==1.25.11
 chromadb==1.4.1
