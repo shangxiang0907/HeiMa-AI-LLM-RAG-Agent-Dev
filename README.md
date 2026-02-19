@@ -39,9 +39,18 @@ All source code and examples are my own notes and practice code, not the officia
   - **`24_LangChain_JsonOutputParser.py`**：JSON 输出解析器示例，演示如何将 AIMessage 转换为字典（JSON 格式）用于多模型链式调用（JsonOutputParser examples for converting AIMessage to JSON/dict in multi-model chains.）
   - **`25_LangChain_RunnableLambda.py`**：RunnableLambda 示例，演示如何将自定义函数加入链中实现灵活的数据转换（RunnableLambda examples for adding custom functions to chains.）
   - **`26_LangChain_Temporary_Session_Memory.py`**：临时会话记忆示例，演示如何使用 RunnableWithMessageHistory 和 InMemoryChatMessageHistory 实现带历史记录的对话（Temporary session memory examples using RunnableWithMessageHistory and InMemoryChatMessageHistory.）
+  - **`27_LangChain_Permanent_Session_Memory.py`**：持久化会话记忆示例，对比临时记忆，展示如何跨会话保存历史对话（Persistent session memory examples showing how to persist chat history across sessions.）
+  - **`28_LangChain_CSVLoader.py`**：CSVLoader 示例，演示如何从 CSV 文件加载结构化数据用于 RAG（CSVLoader examples for loading structured data from CSV into RAG pipelines.）
+  - **`29_LangChain_JSONLoader.py`**：JSONLoader 示例，演示如何从 JSON 文件中加载文档与元数据（JSONLoader examples for loading documents and metadata from JSON files.）
+  - **`30_LangChain_TextLoader.py`**：TextLoader 示例，演示如何从纯文本文件中加载长文档并做拆分（TextLoader examples for loading and splitting long plain-text documents.）
+  - **`31_LangChain_PyPDFLoader.py`**：PyPDFLoader 示例，演示如何加载 PDF 文档、分段并为后续向量化做准备（PyPDFLoader examples for loading and chunking PDF documents for embeddings.）
+  - **`32_LangChain_VectorStore.py`**：向量存储（Vector Store）综合示例，包含 InMemoryVectorStore、Chroma 等的增删查与 RAG 基础流程（Vector store examples with InMemoryVectorStore, Chroma, and basic RAG indexing/querying.）
+  - **`33_LangChain_RAG_Complete_Workflow.py`**：RAG（检索增强生成）完整流程示例，从向量库构建到提示词注入与回答生成的端到端演示（End‑to‑end RAG workflow demo from vector store to prompt construction and answer generation.）
+  - **`34_LangChain_RAG_Retriever_Chain_InMemory.py`**：基于 InMemory 向量存储的 RAG 检索链示例，演示如何使用 retriever.as_retriever() 将向量检索步骤直接加入 LangChain 链中（RAG retriever‑chain demo with InMemoryVectorStore using retriever.as_retriever() inside a LangChain Runnable graph.）
+  - **`stu.csv`**：用于 CSVLoader 示例的简单学生信息数据集（A small student info CSV dataset used by the CSVLoader examples.）
 
-> 后续若继续跟随课程实现 RAG 检索增强问答、Agent 智能体、多工具编排等内容，会在该目录下持续补充脚本与说明。  
-> As I progress through the course (RAG pipelines, Agents, tool calling, etc.), more scripts and notes will be added under this directory.
+> 后续若继续跟随课程实现更复杂的 RAG 检索增强问答、Agent 智能体、多工具编排等内容，会在该目录下持续补充脚本与说明。  
+> As I progress through the course (more advanced RAG pipelines, Agents, tool orchestration, etc.), more scripts and notes will be added under this directory.
 
 ## 环境与运行 Environment & How to Run
 
