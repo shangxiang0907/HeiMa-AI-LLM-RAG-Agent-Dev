@@ -10,3 +10,6 @@ langchain-chroma>=0.1.0
 langchain-text-splitters>=0.3.0
 dashscope==1.25.11
 chromadb==1.4.1
+
+# Streamlit相关包
+streamlit>=1.28.0
