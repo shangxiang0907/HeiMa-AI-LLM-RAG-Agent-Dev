@@ -4,9 +4,14 @@ pip install streamlit
 """
 
 import streamlit as st
+from knowledge_base import KnowledgeBaseService
 
 # 添加网页标题
 st.title("知识库更新服务")
+
+# 初始化知识库服务
+if 'kb_service' not in st.session_state:
+    st.session_state.kb_service = KnowledgeBaseService()
 
 # file_uploader
 uploader_file = st.file_uploader(
@@ -27,4 +32,13 @@ if uploader_file is not None:
     
     # get_value -> bytes -> decode('utf-8')
     text = uploader_file.getvalue().decode("utf-8")
-    st.write(text)
+    
+    # 显示文件内容预览
+    with st.expander("文件内容预览"):
+        st.text(text[:1000] + "..." if len(text) > 1000 else text)
+    
+    # 上传按钮
+    if st.button("上传到知识库"):
+        with st.spinner("正在处理文件..."):
+            result = st.session_state.kb_service.upload_by_str(text, file_name)
+            st.success(result)
