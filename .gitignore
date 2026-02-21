@@ -72,6 +72,10 @@ coverage.xml
 *.sqlite
 *.sqlite3
 
+# 向量数据库和MD5记录
+rag-clothing-customer-service/chroma_db/
+rag-clothing-customer-service/md5.text
+
 # 聊天历史记录
 chat_history/
 

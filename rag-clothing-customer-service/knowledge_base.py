@@ -6,6 +6,7 @@ import hashlib
 import os
 from datetime import datetime
 
+from dotenv import load_dotenv
 from langchain_chroma import Chroma
 from langchain_community.embeddings import DashScopeEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -15,6 +16,19 @@ import config_data as config
 
 class KnowledgeBaseService(object):
     def __init__(self):
+        # 加载环境变量
+        load_dotenv()
+        
+        # 兼容两种环境变量命名方式
+        api_key = os.getenv("DASHSCOPE_API_KEY") or os.getenv("API_KEY")
+        if not api_key:
+            raise ValueError(
+                "未找到 DASHSCOPE_API_KEY 或 API_KEY 环境变量，请先在 .env 或系统环境中配置后再运行。"
+            )
+        
+        # LangChain 的 DashScopeEmbeddings 会自动从环境变量中读取 key
+        os.environ["DASHSCOPE_API_KEY"] = api_key
+        
         # 如果文件夹不存在则创建,如果存在则跳过
         os.makedirs(config.persist_directory, exist_ok=True)
         
