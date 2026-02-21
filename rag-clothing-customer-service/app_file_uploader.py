@@ -4,6 +4,7 @@ pip install streamlit
 """
 
 import streamlit as st
+import time
 from knowledge_base import KnowledgeBaseService
 
 # 添加网页标题
@@ -39,6 +40,8 @@ if uploader_file is not None:
     
     # 上传按钮
     if st.button("上传到知识库"):
+        # 在spinner内的代码执行过程中,会有一个转圈动画
         with st.spinner("正在处理文件..."):
+            time.sleep(1)  # 模拟等待效果
             result = st.session_state.kb_service.upload_by_str(text, file_name)
             st.success(result)
