@@ -19,6 +19,46 @@ def print_prompt(prompt):
 
 
 def debug_runnable(name: str, pretty: bool = False):
+    def _convert_to_serializable(obj):
+        """将对象转换为可 JSON 序列化的格式，递归处理嵌套结构"""
+        # 处理 LangChain 消息对象（HumanMessage, AIMessage, SystemMessage 等）
+        if hasattr(obj, 'content') and hasattr(obj, '__class__'):
+            class_name = obj.__class__.__name__
+            if 'Message' in class_name:
+                result = {
+                    "type": class_name,
+                    "content": obj.content
+                }
+                # 添加其他可能的属性
+                if hasattr(obj, 'additional_kwargs') and obj.additional_kwargs:
+                    result["additional_kwargs"] = _convert_to_serializable(obj.additional_kwargs)
+                if hasattr(obj, 'response_metadata') and obj.response_metadata:
+                    result["response_metadata"] = _convert_to_serializable(obj.response_metadata)
+                return result
+        
+        # 处理 Document 对象
+        if isinstance(obj, Document):
+            return {
+                "page_content": obj.page_content,
+                "metadata": obj.metadata
+            }
+        
+        # 处理列表
+        if isinstance(obj, list):
+            return [_convert_to_serializable(item) for item in obj]
+        
+        # 处理字典
+        if isinstance(obj, dict):
+            return {key: _convert_to_serializable(value) for key, value in obj.items()}
+        
+        # 其他类型，尝试直接返回（如果可序列化）
+        try:
+            json.dumps(obj)
+            return obj
+        except (TypeError, ValueError):
+            # 如果无法序列化，返回字符串表示
+            return str(obj)
+    
     def _inner(x):
         print(f"\n[DEBUG][{name}]")
         
@@ -40,9 +80,15 @@ def debug_runnable(name: str, pretty: bool = False):
                     for doc in x
                 ]
                 print(json.dumps(docs_list, indent=2, ensure_ascii=False))
-            # 处理普通的 dict 或 list
+            # 处理普通的 dict 或 list（可能包含消息对象）
             elif isinstance(x, (dict, list)):
-                print(json.dumps(x, indent=2, ensure_ascii=False))
+                try:
+                    serializable_x = _convert_to_serializable(x)
+                    print(json.dumps(serializable_x, indent=2, ensure_ascii=False))
+                except Exception as e:
+                    # 如果序列化失败，回退到直接打印
+                    print(f"序列化失败，使用直接打印: {e}")
+                    print(x)
             else:
                 print(x)
         else:
