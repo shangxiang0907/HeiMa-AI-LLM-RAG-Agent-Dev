@@ -107,13 +107,20 @@ class RagService(object):
                 formatted_str += f"文档片段:{doc.page_content}\n文档元数据:{doc.metadata}\n\n"
             return formatted_str
 
-        # 1. inputs_mapping 负责把「同一个用户输入」拆成两个键：
-        #    - "input": 原样透传给 prompt，用于 {input}
+        # 1. inputs_mapping 负责把「同一个用户输入」拆成三个键：
+        #    - "input": 提取用户问题字符串，用于 {input}
         #    - "context": 先走 retriever 再走 format_document，得到检索到的参考资料字符串，用于 {context}
+        #    - "history": 保留历史消息，用于 {history}（由 RunnableWithMessageHistory 自动注入）
+        def extract_history(x):
+            """从 RunnableWithMessageHistory 传入的字典中提取 history"""
+            if isinstance(x, dict) and "history" in x:
+                return x["history"]
+            return []
+        
         inputs_mapping = {
-            # RunnablePassthrough: 不做任何处理，原样返回上游输入（用户问题字符串）
-            # 这里在末尾加上 debug_runnable，观察 input 分支的输出
-            "input": RunnablePassthrough() | debug_runnable("inputs_mapping.input", pretty=True),
+            # 提取用户问题字符串，用于 prompt 模板的 {input}
+            "input": RunnableLambda(extract_input_field) \
+                    | debug_runnable("inputs_mapping.input", pretty=True),
             # retriever | format_document: 先用向量检索器查相关文档，再格式化成一段文本
             # 在 retriever 前后、format_document 后分别加上 debug_runnable
             "context": debug_runnable("inputs_mapping.context.before_retriever", pretty=True) \
@@ -123,6 +130,9 @@ class RagService(object):
                        | debug_runnable("inputs_mapping.context.after_retriever", pretty=True) \
                        | format_document \
                        | debug_runnable("inputs_mapping.context.after_format_document"),
+            # 保留 history 字段，传递给 prompt 模板
+            "history": RunnableLambda(extract_history) \
+                      | debug_runnable("inputs_mapping.history", pretty=True),
         }
 
         # 2. 完整链：
