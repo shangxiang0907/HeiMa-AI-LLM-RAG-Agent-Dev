@@ -112,13 +112,15 @@ def extract_input_field(x):
 
 
 class RagService(object):
-    def __init__(self, storage_path: str = "./chat_history"):
+    def __init__(self, storage_path: str = None):
         """
         初始化 RagService。
 
         参数:
-            storage_path: 会话历史记录的存储路径，默认为 "./chat_history"
+            storage_path: 会话历史记录的存储路径，默认为 config.chat_history_path
         """
+        if storage_path is None:
+            storage_path = config.chat_history_path
         self.vector_service = VectorStoreService(
             embedding=DashScopeEmbeddings(model=config.embedding_model_name)
         )

@@ -14,6 +14,8 @@ from typing import Dict, Sequence
 from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.messages import BaseMessage, message_to_dict, messages_from_dict
 
+import config_data as config
+
 
 class FileChatMessageHistory(BaseChatMessageHistory):
     """
@@ -97,17 +99,19 @@ class FileChatMessageHistory(BaseChatMessageHistory):
 chat_history_store: Dict[str, FileChatMessageHistory] = {}
 
 
-def get_history(session_id: str, storage_path: str = "./chat_history") -> FileChatMessageHistory:
+def get_history(session_id: str, storage_path: str = None) -> FileChatMessageHistory:
     """
     获取指定会话ID的历史会话记录函数。
 
     参数:
         session_id: 会话ID（字符串类型）
-        storage_path: 存储路径，默认为 "./chat_history"
+        storage_path: 存储路径，默认为 config.chat_history_path
 
     返回:
         FileChatMessageHistory 实例，用于存储该会话的历史记录
     """
+    if storage_path is None:
+        storage_path = config.chat_history_path
     if session_id not in chat_history_store:
         chat_history_store[session_id] = FileChatMessageHistory(
             storage_path, session_id
