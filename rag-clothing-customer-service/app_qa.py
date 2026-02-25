@@ -128,6 +128,7 @@ def sidebar_session_manager():
 
     # 当前会话 ID
     if "current_session_id" not in st.session_state:
+        # 仅在首次加载时设置默认会话 ID，之后完全由用户在 radio 中选择
         if existing_sessions:
             st.session_state.current_session_id = existing_sessions[0]
         else:
@@ -145,18 +146,19 @@ def sidebar_session_manager():
         display_sessions.insert(0, st.session_state.current_session_id)
 
     if display_sessions:
+        # 使用单选列表而不是下拉框，让会话列表一目了然
+        # 通过 key="current_session_id" 让组件与会话 ID 直接绑定，避免需要点击两次才能切换
         try:
             index = display_sessions.index(st.session_state.current_session_id)
         except ValueError:
             index = 0
 
-        # 使用单选列表而不是下拉框，让会话列表一目了然
-        selected = st.sidebar.radio(
+        st.sidebar.radio(
             "选择会话",
             display_sessions,
             index=index,
+            key="current_session_id",
         )
-        st.session_state.current_session_id = selected
 
     st.sidebar.caption(f"当前会话 ID：`{st.session_state.current_session_id}`")
 
