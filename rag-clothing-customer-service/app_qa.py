@@ -20,7 +20,7 @@ from dotenv import load_dotenv
 
 import config_data as config
 from rag import RagService
-from file_history_store import chat_history_store
+from file_history_store import chat_history_store, get_history
 
 
 def init_api_key():
@@ -65,11 +65,38 @@ def list_sessions() -> list[str]:
 
 
 def ensure_session_state_for_session(session_id: str):
-    """为指定会话 ID 初始化 Streamlit 内存中的聊天记录"""
+    """为指定会话 ID 初始化 Streamlit 内存中的聊天记录
+
+    优先从文件历史记录中恢复（如果存在），
+    这样刷新页面或切换会话时可以看到完整历史。
+    """
     if "chat_sessions" not in st.session_state:
         st.session_state.chat_sessions = {}
     if session_id not in st.session_state.chat_sessions:
-        st.session_state.chat_sessions[session_id] = []
+        # 尝试从持久化历史中加载
+        history_messages = []
+        try:
+            storage_path = get_storage_path()
+            history = get_history(session_id, storage_path)
+            for msg in history.messages:
+                # LangChain 消息类型一般为 "human" / "ai" / "system"
+                role = "assistant"
+                msg_type = getattr(msg, "type", "")
+                if msg_type == "human":
+                    role = "user"
+                elif msg_type == "ai":
+                    role = "assistant"
+                elif msg_type == "system":
+                    # Streamlit 只支持 user/assistant，这里也作为 assistant 展示
+                    role = "assistant"
+                content = getattr(msg, "content", "")
+                history_messages.append({"role": role, "content": content})
+        except Exception as e:
+            # 历史加载失败不影响新会话，只做提示
+            st.warning(f"加载会话历史失败：{e}")
+            history_messages = []
+
+        st.session_state.chat_sessions[session_id] = history_messages
 
 
 def new_session_id() -> str:
