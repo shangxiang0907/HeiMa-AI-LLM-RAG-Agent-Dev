@@ -151,7 +151,11 @@ def sidebar_session_manager():
         # 清除会话选择器的缓存状态，避免覆盖新会话
         if "session_selector" in st.session_state:
             del st.session_state["session_selector"]
-        st.sidebar.success(f"已创建新会话：{new_id}")
+        # 使用 toast 或轻量级文字提示，避免大块绿色区域挤压会话列表
+        if hasattr(st, "toast"):
+            st.toast(f"已创建新会话：{new_id}", icon="✅")
+        else:
+            st.sidebar.caption(f"已创建新会话：`{new_id}`")
 
     # 会话选择列表：**仅展示已有持久化文件的会话**
     # 新建会话在产生聊天记录（被持久化）之前，不会出现在列表中
@@ -164,9 +168,9 @@ def sidebar_session_manager():
         and st.session_state.current_session_id not in display_sessions
     )
 
-    if in_new_session:
-        # 当前为新建会话，但历史会话列表仍然展示，只是都不高亮
-        st.sidebar.caption("当前为新建会话，尚未出现在会话列表中。")
+    # if in_new_session:
+    #     # 当前为新建会话，但历史会话列表仍然展示，只是都不高亮
+    #     st.sidebar.caption("当前为新建会话，尚未出现在会话列表中。")
 
     if display_sessions:
         st.sidebar.markdown("#### 历史会话")
@@ -174,25 +178,20 @@ def sidebar_session_manager():
             is_active = (not in_new_session) and (
                 sid == st.session_state.current_session_id
             )
-            # 用不同样式区分当前会话 / 其他会话
+            # 统一使用按钮组件，避免布局变形；仅通过按钮类型区分当前会话
             label = f"🗂 {sid}"
-            if is_active:
-                # 当前会话用强调样式显示
-                st.sidebar.markdown(
-                    f"<div style='padding:4px 8px;border-radius:6px;background-color:#1f6feb;color:white;font-weight:600;'>{label}</div>",
-                    unsafe_allow_html=True,
-                )
-            else:
-                # 其他会话显示为按钮，点击即可切换
-                if st.sidebar.button(
-                    label,
-                    key=f"session_btn_{sid}",
-                    use_container_width=True,
-                ):
-                    st.session_state.current_session_id = sid
-                    st.session_state["in_new_session"] = False
-                    # 立即重新运行脚本，使会话切换在一次点击后立刻生效
-                    st.rerun()
+            clicked = st.sidebar.button(
+                label,
+                key=f"session_btn_{sid}",
+                use_container_width=True,
+                type="primary" if is_active else "secondary",
+            )
+            # 点击非当前会话按钮时，切换会话
+            if clicked and not is_active:
+                st.session_state.current_session_id = sid
+                st.session_state["in_new_session"] = False
+                # 立即重新运行脚本，使会话切换在一次点击后立刻生效
+                st.rerun()
 
     st.sidebar.caption(f"当前会话 ID：`{st.session_state.current_session_id}`")
 
