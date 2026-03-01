@@ -47,6 +47,10 @@ All source code and examples are my own notes and practice code, not the officia
   - **`32_LangChain_VectorStore.py`**：向量存储（Vector Store）综合示例，包含 InMemoryVectorStore、Chroma 等的增删查与 RAG 基础流程（Vector store examples with InMemoryVectorStore, Chroma, and basic RAG indexing/querying.）
   - **`33_LangChain_RAG_Complete_Workflow.py`**：RAG（检索增强生成）完整流程示例，从向量库构建到提示词注入与回答生成的端到端演示（End‑to‑end RAG workflow demo from vector store to prompt construction and answer generation.）
   - **`34_LangChain_RAG_Retriever_Chain_InMemory.py`**：基于 InMemory 向量存储的 RAG 检索链示例，演示如何使用 retriever.as_retriever() 将向量检索步骤直接加入 LangChain 链中（RAG retriever‑chain demo with InMemoryVectorStore using retriever.as_retriever() inside a LangChain Runnable graph.）
+  - **`35_LangChain_Agent_First_Experience.py`**：LangChain Agent 智能体初体验示例，演示如何定义工具、创建 Agent 并调用，重点展示 Agent 的输入/输出结构（First experience with LangChain Agent, demonstrating tool definition, agent creation, and invocation, focusing on input/output structure.）
+  - **`36_LangChain_Agent_Stream_Output.py`**：Agent 智能体流式输出示例，演示如何使用 `agent.stream(..., stream_mode="values")` 持续接收增量消息，实时观察 Agent 的思考过程和工具调用（Agent streaming output examples using `agent.stream()` to receive incremental messages and observe the agent's thinking process and tool calls in real-time.）
+  - **`37_LangChain_Agent_ReAct_Framework.py`**：ReAct 思考-行动-观察框架示例，演示如何在 system_prompt 中约束 Agent 按照「思考 → 行动 → 观察 → 再思考」的流程解决问题，并通过流式输出观察完整的 ReAct 过程（ReAct framework examples showing how to constrain agents to follow the "Thought → Action → Observation → Re-thought" flow via system_prompt and observe the complete ReAct process through streaming.）
+  - **`38_LangChain_Agent_Middleware.py`**：LangChain Agent 中间件示例，演示节点式钩子（before_agent, after_agent, before_model, after_model）和包装式钩子（wrap_model_call, wrap_tool_call）的使用，包含日志记录、重试逻辑、工具监控等完整示例（LangChain Agent middleware examples demonstrating node-style hooks and wrapper-style hooks for logging, retry logic, tool monitoring, etc.）
   - **`stu.csv`**：用于 CSVLoader 示例的简单学生信息数据集（A small student info CSV dataset used by the CSVLoader examples.）
 
 > 后续若继续跟随课程实现更复杂的 RAG 检索增强问答、Agent 智能体、多工具编排等内容，会在该目录下持续补充脚本与说明。  
