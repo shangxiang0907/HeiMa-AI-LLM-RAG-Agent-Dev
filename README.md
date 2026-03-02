@@ -89,6 +89,8 @@ All source code and examples are my own notes and practice code, not the officia
 - **运行环境 Environment**
   - 基于 Devbox 提供的 Debian 12 + Python 开发环境。  
     Based on Devbox environment (Debian 12 with Python pre-configured).
+  - 本项目在 **Python 3.12** 环境下开发与测试，推荐使用 **Python 3.10–3.12** 版本运行。  
+    This project is developed and tested with **Python 3.12**; it is recommended to use **Python 3.10–3.12**.
   - 需要自行配置对应的大模型平台 API Key（如 OpenAI、阿里云通义等）。  
     You need to configure your own API keys for LLM providers (OpenAI, Tongyi, etc.).
 
