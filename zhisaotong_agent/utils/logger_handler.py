@@ -23,7 +23,9 @@ os.makedirs(LOG_ROOT, exist_ok=True)
 
 # 默认日志格式：时间 - logger 名称 - 级别 - 文件名:行号 - 消息
 DEFAULT_LOG_FORMATTER = logging.Formatter(
-    "%(asctime)s - %(name)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s"
+    # 时间 - logger 名称 - 级别 - 文件名:行号 - 消息
+    # 2026-03-04 13:31:41,240 - zhisaotong_agent.utils.logger_handler - DEBUG - test.py:3 - 这是一条 DEBUG 日志（默认只写入文件）。
+    "%(asctime)s - %(name)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s" 
 )
 
 
@@ -51,8 +53,10 @@ def get_logger(
     获取一个已经按项目标准配置好的 logger。
 
     参数说明：
-    - name: logger 名称，推荐在各模块里使用 `__name__` 传入；
-    - console_level: 控制台输出日志级别（默认 INFO）；
+    - name: logger 名称。实际项目中推荐在各业务模块里显式写 `get_logger(__name__)`，
+      这样每个模块都会拿到带有自己模块名（如 `zhisaotong_agent.rag.rag_service`）的 logger，
+      便于在日志中按模块区分来源；如果不传则使用本模块自己的名称。
+    - console_level: 控制台输出日志级别（默认 INFO），控制“在终端里能看到多详细的日志”。
     - file_level: 文件日志级别（默认 DEBUG）；
     - log_file: 指定日志文件的绝对路径；如果为 None，则自动根据 name+日期生成；
     - when / interval / backup_count: TimedRotatingFileHandler 的轮转策略：
@@ -99,5 +103,26 @@ def get_logger(
     return logger
 
 
-__all__ = ["get_logger", "LOG_ROOT"]
+__all__ = ["get_logger", "LOG_ROOT"]  # 明确模块对外暴露的公共接口，配合 `from utils.logger_handler import *` 使用
+
+
+if __name__ == "__main__":
+    """
+    简单自测代码：
+    - 在控制台打印不同级别日志；
+    - 在 `logs/` 目录下生成对应的日志文件。
+    运行方式（二选一）：
+        # 在项目根目录下
+        python -m zhisaotong_agent.utils.logger_handler
+
+        # 或在包根目录 zhisaotong_agent/ 下
+        python -m utils.logger_handler
+    """
+    # test_logger = get_logger("logger_handler_demo")
+    test_logger = get_logger()
+    test_logger.debug("这是一条 DEBUG 日志（默认只写入文件）。")
+    test_logger.info("这是一条 INFO 日志。")
+    test_logger.warning("这是一条 WARNING 日志。")
+    test_logger.error("这是一条 ERROR 日志。")
+    test_logger.critical("这是一条 CRITICAL 日志。")
 
