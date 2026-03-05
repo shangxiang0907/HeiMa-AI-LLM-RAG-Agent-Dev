@@ -133,6 +133,12 @@ All source code and examples are my own notes and practice code, not the officia
 pip install -r requirements.txt
 ```
 
+### Windows 使用说明 (Windows Notes)
+
+- 本项目目前**只在 Linux（Debian 12）环境下完整跑通过**，**未在原生 Windows 上系统性测试**。  
+- 如果你在 Windows 上尝试运行，推荐优先使用 **WSL2 / Docker / Linux 虚拟机**，并根据自身环境做适当调整。  
+- 如在 Windows 上遇到环境相关问题，欢迎提 Issue 反馈。  
+
 - **运行方式 How to Run**
   - 进入 Devbox 开发环境后，可直接运行单个示例脚本，例如：  
     After entering the Devbox environment, you can run any script directly, e.g.:
