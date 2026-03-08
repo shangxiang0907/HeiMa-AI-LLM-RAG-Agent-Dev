@@ -4,22 +4,41 @@ envs:
       # 向量库类型，目前计划使用 chromadb
       type: chromadb
       # 持久化目录，基于项目根目录，相对路径即可
-      persist_directory: data/chroma
+      persist_directory: chroma_db
 
     collection:
       # 向量集合名称
-      name: robot_qa
-      # 附加的元数据，可用于区分不同 embedding 模型版本等
-      metadata:
-        embedding_model_name: text-embedding-v4
+      name: agent
+
+    retrieval:
+      # 检索时返回的相似向量数量
+      k: 3
+
+    storage:
+      # 数据存储路径
+      data_path: data
+      # MD5 校验文件存储路径
+      md5_hex_store: md5.text
+
+    knowledge:
+      # 允许的知识文件类型
+      allow_knowledge_file_type: ["txt", "pdf"]
+
+    processing:
+      # 文本分块大小
+      chunk_size: 200
+      # 分块重叠大小
+      chunk_overlap: 20
+      # 文本分块分隔符（按优先级排序）
+      separators: ["\n\n", "\n", ". ", "! ", "?", ""]
 
   dev:
     client:
       # 开发环境下使用独立的索引目录，避免污染线上索引
-      persist_directory: data/chroma_dev
+      persist_directory: chroma_db_dev
 
   prod:
     client:
       # 生产环境索引目录，可根据部署环境调整为挂载磁盘路径
-      persist_directory: data/chroma_prod
+      persist_directory: chroma_db_prod
 

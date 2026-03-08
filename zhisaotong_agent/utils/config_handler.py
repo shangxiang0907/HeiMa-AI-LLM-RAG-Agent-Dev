@@ -221,7 +221,7 @@ class RagConfig:
 @dataclass
 class ChromaClientConfig:
     type: str = "chromadb"
-    persist_directory: str = "data/chroma"
+    persist_directory: str = "chroma_db"
 
     @classmethod
     def from_dict(cls, data: Mapping[str, Any]) -> "ChromaClientConfig":
@@ -233,14 +233,68 @@ class ChromaClientConfig:
 
 @dataclass
 class ChromaCollectionConfig:
-    name: str = "robot_qa"
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    name: str = "agent"
 
     @classmethod
     def from_dict(cls, data: Mapping[str, Any]) -> "ChromaCollectionConfig":
         return cls(
             name=data.get("name", cls.name),
-            metadata=dict(data.get("metadata", {}) or {}),
+        )
+
+
+@dataclass
+class ChromaRetrievalConfig:
+    k: int = 3
+
+    @classmethod
+    def from_dict(cls, data: Mapping[str, Any]) -> "ChromaRetrievalConfig":
+        return cls(
+            k=int(data.get("k", cls.k)),
+        )
+
+
+@dataclass
+class ChromaStorageConfig:
+    data_path: str = "data"
+    md5_hex_store: str = "md5.text"
+
+    @classmethod
+    def from_dict(cls, data: Mapping[str, Any]) -> "ChromaStorageConfig":
+        return cls(
+            data_path=data.get("data_path", cls.data_path),
+            md5_hex_store=data.get("md5_hex_store", cls.md5_hex_store),
+        )
+
+
+@dataclass
+class ChromaKnowledgeConfig:
+    allow_knowledge_file_type: list[str] = field(default_factory=lambda: ["txt", "pdf"])
+
+    @classmethod
+    def from_dict(cls, data: Mapping[str, Any]) -> "ChromaKnowledgeConfig":
+        default_types = ["txt", "pdf"]
+        return cls(
+            allow_knowledge_file_type=list(
+                data.get("allow_knowledge_file_type", default_types)
+            ),
+        )
+
+
+@dataclass
+class ChromaProcessingConfig:
+    chunk_size: int = 200
+    chunk_overlap: int = 20
+    separators: list[str] = field(
+        default_factory=lambda: ["\n\n", "\n", ". ", "! ", "?", ""]
+    )
+
+    @classmethod
+    def from_dict(cls, data: Mapping[str, Any]) -> "ChromaProcessingConfig":
+        default_separators = ["\n\n", "\n", ". ", "! ", "?", ""]
+        return cls(
+            chunk_size=int(data.get("chunk_size", cls.chunk_size)),
+            chunk_overlap=int(data.get("chunk_overlap", cls.chunk_overlap)),
+            separators=list(data.get("separators", default_separators)),
         )
 
 
@@ -248,6 +302,10 @@ class ChromaCollectionConfig:
 class ChromaConfig:
     client: ChromaClientConfig = field(default_factory=ChromaClientConfig)
     collection: ChromaCollectionConfig = field(default_factory=ChromaCollectionConfig)
+    retrieval: ChromaRetrievalConfig = field(default_factory=ChromaRetrievalConfig)
+    storage: ChromaStorageConfig = field(default_factory=ChromaStorageConfig)
+    knowledge: ChromaKnowledgeConfig = field(default_factory=ChromaKnowledgeConfig)
+    processing: ChromaProcessingConfig = field(default_factory=ChromaProcessingConfig)
 
     @classmethod
     def from_dict(cls, data: Mapping[str, Any]) -> "ChromaConfig":
@@ -255,7 +313,20 @@ class ChromaConfig:
         collection_cfg = ChromaCollectionConfig.from_dict(
             data.get("collection", {}) or {}
         )
-        return cls(client=client_cfg, collection=collection_cfg)
+        retrieval_cfg = ChromaRetrievalConfig.from_dict(data.get("retrieval", {}) or {})
+        storage_cfg = ChromaStorageConfig.from_dict(data.get("storage", {}) or {})
+        knowledge_cfg = ChromaKnowledgeConfig.from_dict(data.get("knowledge", {}) or {})
+        processing_cfg = ChromaProcessingConfig.from_dict(
+            data.get("processing", {}) or {}
+        )
+        return cls(
+            client=client_cfg,
+            collection=collection_cfg,
+            retrieval=retrieval_cfg,
+            storage=storage_cfg,
+            knowledge=knowledge_cfg,
+            processing=processing_cfg,
+        )
 
 
 @dataclass
@@ -440,6 +511,10 @@ __all__ = [
     "RagConfig",
     "ChromaClientConfig",
     "ChromaCollectionConfig",
+    "ChromaRetrievalConfig",
+    "ChromaStorageConfig",
+    "ChromaKnowledgeConfig",
+    "ChromaProcessingConfig",
     "ChromaConfig",
     "PromptsConfig",
     "AgentToolConfig",
