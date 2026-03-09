@@ -22,7 +22,7 @@ envs:
 
     knowledge:
       # 允许的知识文件类型
-      allow_knowledge_file_type: ["txt", "pdf"]
+      allow_knowledge_file_type: [".txt", ".pdf"]
 
     processing:
       # 文本分块大小
