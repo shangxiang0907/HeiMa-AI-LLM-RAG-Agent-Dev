@@ -90,9 +90,11 @@ def _load_external_data_from_file(file_path: str) -> Dict[str, Dict[str, Dict[st
 def _get_external_data() -> Dict[str, Dict[str, Dict[str, str]]]:
     """获取外部数据（懒加载、线程安全、仅加载一次）。"""
     global _external_data_cache
+    # 第一层快速路径：在无锁情况下直接返回，避免每次读取都进入加锁开销
     if _external_data_cache:
         return _external_data_cache
     with _external_data_lock:
+        # 第二层检查：防止并发场景下多个线程同时通过第一层判断而重复加载（double-checked locking）
         if _external_data_cache:
             return _external_data_cache
         agent_config = load_agent_config()
