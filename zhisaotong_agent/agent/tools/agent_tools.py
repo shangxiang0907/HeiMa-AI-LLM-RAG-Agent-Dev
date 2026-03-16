@@ -102,6 +102,9 @@ def _get_external_data() -> Dict[str, Dict[str, Dict[str, str]]]:
         file_path = agent_config.get_external_data_abs_path()
         try:
             loaded = _load_external_data_from_file(file_path)
+            # 这里使用 clear() + update() 而不是直接重新赋值：
+            # - 当前语义下缓存首次加载时本身就是空，但保留 clear() 便于未来支持“强制刷新”场景；
+            # - 保证始终复用同一个 dict 实例，避免其他模块持有的引用因替换对象而失效。
             _external_data_cache.clear()
             _external_data_cache.update(loaded)
             logger.info("外部数据已加载，路径=%s，用户数=%d", file_path, len(_external_data_cache))
