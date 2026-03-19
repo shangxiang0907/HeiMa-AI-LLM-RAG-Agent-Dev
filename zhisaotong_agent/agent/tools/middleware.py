@@ -79,7 +79,25 @@ def monitor_tool(
     handler: Callable[[ToolCallRequest], ToolMessage | Command],
 ) -> ToolMessage | Command:
     """
-    工具调用监控：记录工具名与入参，并在需要时在 runtime.context 打标记。
+    工具调用监控中间件。
+
+    关于 @wrap_tool_call 装饰器（简化理解）：
+    - 在 LangGraph/Agent 执行链中，每当「需要调用某个工具」时，框架会把原本
+      直接执行工具的步骤“包裹”成一个中间件调用；
+    - 这个中间件的签名约定为 monitor_tool(request, handler)：
+        - request: ToolCallRequest，对应“这一次工具调用”的上下文（包括工具名、
+          参数、runtime 等信息）；
+        - handler: 真正执行工具的函数（可以理解成“next” 或 “inner handler”）。
+    - monitor_tool 里可以：
+        - 在调用前后打日志；
+        - 修改 request 或 runtime.context；
+        - 决定是否继续调用 handler，或者短路返回。
+
+    本函数的核心逻辑是：
+    - 从 request 中取出工具名称与参数，用安全方式打印日志（避免泄露敏感信息）；
+    - 调用 handler(request) 让真正的工具执行；
+    - 如果是特定工具 fill_context_for_report，就在 runtime.context 中打一个标记，
+      供后续 @dynamic_prompt 中间件判断是否切换到“报告场景”的提示词。
     """
 
     tool_call = getattr(request, "tool_call", None) or {}
@@ -109,7 +127,22 @@ def monitor_tool(
 @before_model
 def log_before_model(state: AgentState, runtime: Runtime):
     """
-    在模型执行前输出日志（消息条数与最新一条消息概览）。
+    在模型执行前输出日志（消息条数与最新一条消息概览）的中间件。
+
+    关于 @before_model 装饰器（简化理解）：
+    - 在一次 Agent / Graph 的循环里，当“上一个节点”已经准备好了 messages，
+      即将进入「调用大模型」这一步时，框架会先依次执行所有 @before_model
+      注册的中间件；
+    - 这些中间件的签名固定为 log_before_model(state, runtime)：
+        - state: 当前 AgentState，里边最关键的是 state["messages"]，包含了
+          系统/用户/AI/工具消息等；
+        - runtime: LangGraph Runtime，包含运行上下文、配置、链路信息等。
+
+    本函数只做只读日志：
+    - 统计消息条数，方便排查“重复追加历史消息”等问题；
+    - 打印最后一条消息的类型与内容（经过 _safe_preview 截断），方便观测当前
+      发给模型的最后一条输入长什么样；
+    - 不修改 state 与 runtime，保证是“零副作用”的观测中间件。
     """
 
     messages = state.get("messages") if isinstance(state, dict) else None
@@ -134,6 +167,21 @@ def log_before_model(state: AgentState, runtime: Runtime):
 def report_prompt_switch(request: ModelRequest):
     """
     动态切换提示词：当 runtime.context['report'] 为 True 时切换为报告提示词。
+
+    关于 @dynamic_prompt 装饰器（简化理解）：
+    - 每次框架要“构造给模型的系统提示词 / 主提示词”时，会调用此函数来获取
+      本次调用应该使用的 prompt 内容；
+    - 传入的 request: ModelRequest，里面包含本次模型调用相关的上下文信息，
+      包括 runtime.context（可在工具中间件里写入标志位）。
+
+    本函数的核心逻辑：
+    - 读取 runtime.context["report"] 这个布尔标记；
+        - 该标记由 monitor_tool 在特定工具（fill_context_for_report）执行后设置；
+    - 如果是报告场景（report=True），则加载报告专用提示词；
+    - 否则回退到系统默认提示词。
+
+    这样就把「是否进入报告生成场景」这个业务决策，从 prompt 模板里解耦出来，
+    统一用 runtime.context 这个“执行上下文状态”进行传递。
     """
 
     is_report = bool(request.runtime.context.get("report", False))
