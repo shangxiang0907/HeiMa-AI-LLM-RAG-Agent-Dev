@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zhisaotong-agent"
+version = "0.1.0"
+description = "扫地机器人智能客服 Agent（RAG + Streamlit）"
+readme = { file = "src/zhisaotong_agent/PROJECT_OVERVIEW.md", content-type = "text/markdown" }
+requires-python = ">=3.10"
+dependencies = [
+    "openai>=1.0.0",
+    "python-dotenv>=1.0.0",
+    "PyYAML>=6.0",
+    "langchain==1.2.9",
+    "langchain-core>=0.3.0",
+    "langchain-community==0.4.1",
+    "langchain-ollama==1.0.1",
+    "langchain-chroma>=0.1.0",
+    "langchain-text-splitters>=0.3.0",
+    "dashscope==1.25.11",
+    "chromadb==1.4.1",
+    "pypdf>=4.0.0",
+    "streamlit>=1.28.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+zhisaotong_agent = [
+    "config/*.yml",
+    "prompts/*.txt",
+    "data/**/*",
+]

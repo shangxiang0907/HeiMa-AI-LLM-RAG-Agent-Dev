@@ -1,0 +1,3 @@
+recursive-include src/zhisaotong_agent/config *.yml
+recursive-include src/zhisaotong_agent/prompts *.txt
+recursive-include src/zhisaotong_agent/data *

@@ -1,9 +1,13 @@
 """
 智扫通 Streamlit 入口：会话展示、流式回复与基础生产化防护。
 
-运行（在项目根目录）::
+在 ``zhisaotong_agent/`` 目录执行 ``pip install -e .`` 后，从仓库根目录启动（推荐用 ``python3 -m``，不依赖 ``streamlit`` 是否在 PATH）::
 
-    streamlit run zhisaotong_agent/app.py
+    python3 -m streamlit run zhisaotong_agent/src/zhisaotong_agent/app.py
+
+若在 ``zhisaotong_agent/`` 目录下，则::
+
+    python3 -m streamlit run src/zhisaotong_agent/app.py
 """
 
 from __future__ import annotations

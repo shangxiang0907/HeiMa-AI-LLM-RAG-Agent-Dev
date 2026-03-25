@@ -5,8 +5,8 @@ def get_project_root() -> str:
     """
     获取项目根目录的绝对路径。
 
-    约定：本文件位于 `zhisaotong_agent/utils/path_tool.py`，
-    项目根目录为其上一级目录 `zhisaotong_agent/`。
+    约定：本文件位于包内 `zhisaotong_agent/utils/path_tool.py`，
+    「项目根」指包安装目录（含 config、data 等），即本文件向上两级目录。
     """
     return str(Path(__file__).resolve().parent.parent)
 

@@ -14,41 +14,32 @@
   - 生成个性化使用报告，总结使用情况并提出优化建议（如清扫计划、禁区设置、耗材更换提醒等）。
   - 支持用户主动查询报告或系统定期推送，帮助用户最大化产品价值。
 
-### 二、代码目录结构（规划阶段）
+### 二、代码目录结构
 
-> 目前仅定义目录与模块职责，不编写具体实现代码，后续开发将在此结构基础上逐步完善。
+> 外层目录名 `zhisaotong_agent/` 为仓库中的子项目根；在其中有 `pyproject.toml`，可执行 `pip install -e .` 做可编辑安装。Python 包源码在 `src/zhisaotong_agent/`（import 名 `zhisaotong_agent`）。
 
 ```text
-zhisaotong_agent/
-  ├─ agent/                     # 智能体相关逻辑
-  │  ├─ tools/                  # 智能体可调用的工具集合
-  │  │  ├─ agent_tools.py       # 业务工具：RAG 查询、获取用户信息、生成外部数据等
-  │  │  └─ middleware.py        # 工具调用前后的监控、日志、埋点等中间件
-  │  └─ react_agent.py          # ReAct（推理 + 动作）智能体封装与对话流控制
-  │
-  ├─ config/                    # 配置文件（模型、RAG、数据源等）
-  │
-  ├─ data/                      # 原始数据与中间数据（如嵌入前文本、索引缓存等）
-  │
-  ├─ model/                     # 模型抽象与工厂
-  │  └─ factory.py              # chat / embedding 等模型实例的统一创建入口
-  │
-  ├─ prompts/                   # 提示词模板与对话系统提示
-  │
-  ├─ rag/                       # RAG 相关服务
-  │  ├─ rag_service.py          # 文档检索 + 总结服务（如 rag_summarize 等）
-  │  └─ vector_store.py         # 向量库封装与检索器构建
-  │
-  ├─ utils/                     # 通用工具模块
-  │  ├─ chain_debug.py          # 调试链路、打印中间结果
-  │  ├─ config_handler.py       # 配置文件读写与合并
-  │  ├─ file_handler.py         # 文件加载、遍历与编码处理
-  │  ├─ logger_handler.py       # 日志封装
-  │  ├─ path_tool.py            # 路径拼接与项目根路径管理
-  │  └─ prompt_loader.py        # 提示词文件加载工具
-  │
-  ├─ app.py                     # Streamlit 或 Web 接口入口（对接前端页面）
-  └─ README.md                  # 项目总 README（可与本说明合并或引用）
+zhisaotong_agent/                 # 子项目根（含构建配置）
+  ├─ pyproject.toml               # 包元数据、依赖、setuptools 配置
+  ├─ MANIFEST.in                  # 发行包时包含的非 .py 资源
+  └─ src/
+       └─ zhisaotong_agent/       # 可安装包根目录（import 名同此）
+            ├─ agent/             # 智能体相关逻辑
+            │  ├─ tools/          # 智能体可调用的工具集合
+            │  │  ├─ agent_tools.py
+            │  │  └─ middleware.py
+            │  └─ react_agent.py
+            ├─ config/            # 配置文件（模型、RAG、数据源等）
+            ├─ data/              # 原始数据与中间数据
+            ├─ model/
+            │  └─ factory.py
+            ├─ prompts/           # 提示词模板
+            ├─ rag/
+            │  ├─ rag_service.py
+            │  └─ vector_store.py
+            ├─ utils/             # 通用工具（config_handler、path_tool 等）
+            ├─ app.py             # Streamlit 入口
+            └─ PROJECT_OVERVIEW.md
 ```
 
 ### 三、模块间逻辑架构（Mermaid）
