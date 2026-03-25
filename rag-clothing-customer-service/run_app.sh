@@ -5,5 +5,5 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
-# 启动Streamlit应用，监听0.0.0.0
-streamlit run app_file_uploader.py --server.address 0.0.0.0 --server.port 8501
+# 使用 python3 -m，避免 streamlit 可执行文件未加入 PATH（如 pip --user 安装）
+python3 -m streamlit run app_file_uploader.py --server.address 0.0.0.0 --server.port 8501
