@@ -14,7 +14,30 @@
   - 生成个性化使用报告，总结使用情况并提出优化建议（如清扫计划、禁区设置、耗材更换提醒等）。
   - 支持用户主动查询报告或系统定期推送，帮助用户最大化产品价值。
 
-### 二、代码目录结构
+### 二、安装与启动
+
+**环境要求**：Python **3.10+**。建议使用虚拟环境，**先激活**后再安装与运行。
+
+**安装**（在子项目根目录 `zhisaotong_agent/` 下执行）：
+
+```bash
+pip install -e .
+```
+
+**API Key**：在 `zhisaotong_agent/` 目录放置 `.env`，或预先导出环境变量，配置 **`DASHSCOPE_API_KEY`**（亦可使用 **`API_KEY`**，应用会兼容读取）。
+
+**启动 Streamlit**（任选其一）：
+
+- **脚本**（会先执行 `pip install -e .`，再启动应用；默认监听 `0.0.0.0:8501`，便于远程或容器内访问）  
+  - Linux / macOS：`./run_app.sh`  
+  - Windows：`run_app.bat`
+- **命令行**：
+
+```bash
+python3 -m streamlit run src/zhisaotong_agent/app.py --server.address 0.0.0.0 --server.port 8501
+```
+
+### 三、代码目录结构
 
 > 外层目录名 `zhisaotong_agent/` 为仓库中的子项目根；在其中有 `pyproject.toml`，可执行 `pip install -e .` 做可编辑安装。Python 包源码在 `src/zhisaotong_agent/`（import 名 `zhisaotong_agent`）。本说明文件 `PROJECT_OVERVIEW.md` 位于子项目根目录，与 `pyproject.toml` 同级。
 
@@ -23,6 +46,8 @@ zhisaotong_agent/                 # 子项目根（含构建配置）
   ├─ pyproject.toml               # 包元数据、依赖、setuptools 配置
   ├─ MANIFEST.in                  # 发行包时包含的非 .py 资源
   ├─ PROJECT_OVERVIEW.md          # 项目说明（本文件）
+  ├─ run_app.sh                   # Linux/macOS 启动脚本
+  ├─ run_app.bat                  # Windows 启动脚本
   └─ src/
        └─ zhisaotong_agent/       # 可安装包根目录（import 名同此）
             ├─ agent/             # 智能体相关逻辑
@@ -42,7 +67,7 @@ zhisaotong_agent/                 # 子项目根（含构建配置）
             └─ app.py             # Streamlit 入口
 ```
 
-### 三、模块间逻辑架构（Mermaid）
+### 四、模块间逻辑架构（Mermaid）
 
 > 下图以 Mermaid 描述主要模块间的调用与依赖关系，仅为架构设计示意，不包含任何实现细节。
 
@@ -83,7 +108,7 @@ flowchart LR
     AT -->|生成报告/建议| UI
 ```
 
-### 四、后续开发建议
+### 五、后续开发建议
 
 - **第一阶段**：搭建基础工程（虚拟环境、依赖管理、基础配置与日志），补充 `README.md` 与本说明文件的关联。
 - **第二阶段**：实现向量库构建与 RAG 服务（`rag_service.py`、`vector_store.py`），并导入扫地机器人知识文档。
