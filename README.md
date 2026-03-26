@@ -90,6 +90,10 @@ All source code and examples are my own notes and practice code, not the officia
 
 `zhisaotong_agent/` 是一个面向消费者（toC）的**扫地机器人智能客服系统**，基于 RAG（Retrieval-Augmented Generation）技术，从扫地机器人领域知识库中检索信息，并生成自然语言回答或建议。
 
+<img width="1938" height="1230" alt="image" src="https://github.com/user-attachments/assets/4118bab6-62fd-44ba-8957-827072a7bf76" />
+<img width="1902" height="1287" alt="image" src="https://github.com/user-attachments/assets/dbac5827-21cb-4244-b0e0-72a56ace0acd" />
+
+
 ### 一、核心功能
 
 - **智能问答服务**
