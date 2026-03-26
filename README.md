@@ -12,7 +12,7 @@ All source code and examples are my own notes and practice code, not the officia
 
 ## 目录结构 Directory Structure
 
-- **`AI_LLM_RAG_Agent_Dev/`**：课程相关代码与练习（个人笔记）
+## `AI_LLM_RAG_Agent_Dev/`：课程相关代码与练习（个人笔记）
   - **`01_TestApiKey.py`**：测试大模型 / 平台 API Key 是否可用（Test script to verify LLM / platform API keys.）
   - **`02_OpenAI_Library_Basic_Usage.py`**：OpenAI / 通义等大模型基础调用示例（Basic usage examples for LLM SDKs.）
   - **`03_OpenAI_Library_Stream_Output.py`**：流式输出（streaming）示例（Streaming response examples.）
@@ -56,7 +56,7 @@ All source code and examples are my own notes and practice code, not the officia
 > 后续若继续跟随课程实现更复杂的 RAG 检索增强问答、Agent 智能体、多工具编排等内容，会在该目录下持续补充脚本与说明。  
 > As I progress through the course (more advanced RAG pipelines, Agents, tool orchestration, etc.), more scripts and notes will be added under this directory.
 
-- **`rag-clothing-customer-service/`**：RAG 项目 - 服装商品智能客服（RAG Project - Intelligent Customer Service for Clothing E-commerce）
+## `rag-clothing-customer-service/`：RAG 项目 - 服装商品智能客服（RAG Project - Intelligent Customer Service for Clothing E-commerce）
   - 基于 RAG（检索增强生成）技术的服装电商智能客服系统知识库，提供尺码推荐、洗涤养护、颜色选择等问答能力  
     A RAG-based knowledge base and QA system for clothing e-commerce, including size recommendations, washing care, and color selection.
   - **`rag.py`**：核心 `RagService` 实现，封装向量检索、提示词模板、多轮对话与会话历史管理逻辑  
@@ -86,6 +86,111 @@ All source code and examples are my own notes and practice code, not the officia
     <img width="1509" height="1383" alt="image" src="https://github.com/user-attachments/assets/7aa885bc-5c6a-4f73-80e4-ecf1ef194491" />
     <img width="2136" height="1371" alt="image" src="https://github.com/user-attachments/assets/03ba3566-d21c-430e-8d2a-4de34476a8be" />
 
+## 智扫通Agent（zhisaotong_agent）
+
+`zhisaotong_agent/` 是一个面向消费者（toC）的**扫地机器人智能客服系统**，基于 RAG（Retrieval-Augmented Generation）技术，从扫地机器人领域知识库中检索信息，并生成自然语言回答或建议。
+
+### 一、核心功能
+
+- **智能问答服务**
+  - 处理购买前咨询：如功能差异、价格、型号对比、适用户型等。
+  - 解决使用与售后问题：如操作指引、故障排查、维护保养建议等。
+  - 依托 RAG 技术，从知识库中检索高置信度文档片段，结合大模型生成可靠回复。
+
+- **使用报告与优化建议**
+  - 针对已购用户，自动分析扫地机器人的使用数据（如清洁频率、耗材状态、错误日志等）。
+  - 生成个性化使用报告，总结使用情况并提出优化建议（如清扫计划、禁区设置、耗材更换提醒等）。
+  - 支持用户主动查询报告或系统定期推送，帮助用户最大化产品价值。
+
+### 二、安装与启动
+
+**环境要求**：Python **3.10+**。建议使用虚拟环境，**先激活**后再安装与运行。
+
+**安装**（在子项目根目录 `zhisaotong_agent/` 下执行）：
+
+```bash
+pip install -e .
+```
+
+**API Key**：在 `zhisaotong_agent/` 目录放置 `.env`，或预先导出环境变量，配置 **`DASHSCOPE_API_KEY`**（亦可使用 **`API_KEY`**，应用会兼容读取）。
+
+**启动 Streamlit**（任选其一）：
+
+- **脚本**（会先执行 `pip install -e .`，再启动应用；默认监听 `0.0.0.0:8501`，便于远程或容器内访问）
+  - Linux / macOS：`./run_app.sh`
+  - Windows：`run_app.bat`
+- **命令行**：
+
+```bash
+python3 -m streamlit run src/zhisaotong_agent/app.py --server.address 0.0.0.0 --server.port 8501
+```
+
+### 三、代码目录结构
+
+```text
+zhisaotong_agent/                 # 子项目根（含构建配置）
+  ├─ pyproject.toml               # 包元数据、依赖、setuptools 配置
+  ├─ MANIFEST.in                  # 发行包时包含的非 .py 资源
+  ├─ PROJECT_OVERVIEW.md          # 项目说明（本文件）
+  ├─ run_app.sh                   # Linux/macOS 启动脚本
+  ├─ run_app.bat                  # Windows 启动脚本
+  └─ src/
+       └─ zhisaotong_agent/       # 可安装包根目录（import 名同此）
+            ├─ agent/             # 智能体相关逻辑
+            ├─ config/            # YAML 配置
+            ├─ data/              # 原始数据与中间数据
+            ├─ model/             # 模型工厂
+            ├─ prompts/           # 提示词模板
+            ├─ rag/                # RAG 与向量存储服务
+            └─ utils/             # 通用工具
+                └─ app.py         # Streamlit 入口
+```
+
+### 四、模块间逻辑架构（Mermaid）
+
+```mermaid
+flowchart LR
+    %% 前端入口
+    UI[前端页面 / Streamlit 应用] -->|用户问题/指令| APP[app.py 应用入口]
+
+    %% 智能体与工具
+    APP --> RA[ReactAgent\nreact_agent.py]
+    RA -->|调用工具| AT[Agent Tools\nagent_tools.py]
+    RA -->|监控/埋点| MW[middleware.py]
+
+    %% RAG 服务
+    AT -->|RAG 查询| RAG[rageSummarizeService\nrag_service.py]
+    RAG -->|检索文档| VS[VectorStoreService\nvector_store.py]
+
+    %% 模型层
+    RAG -->|调用大模型| CM[Chat Model]
+    RAG -->|生成向量| EM[Embedding Model]
+    CM & EM --> MF[Model Factory\nfactory.py]
+
+    %% 知识库与数据
+    VS -->|加载/构建索引| KB[(RAG 知识库\n文本/向量存储)]
+    KB --- DATA[data 目录\n原始文档]
+
+    %% 配置与工具
+    APP --> CFG[配置管理\nconfig_handler.py]
+    CFG --> CONF[配置文件\nconfig 目录]
+
+    APP --> ULOG[日志工具\nlogger_handler.py]
+    AT  --> FH[file_handler.py]
+    AT  --> PL[prompt_loader.py]
+
+    %% 用户数据分析与报告
+    APP -->|上报使用数据| UD[(用户使用数据)]
+    UD --> AT
+    AT -->|生成报告/建议| UI
+```
+
+### 五、后续开发建议
+
+- **第一阶段**：搭建基础工程（虚拟环境、依赖管理、基础配置与日志），补充 `README.md` 与本说明文件的关联。
+- **第二阶段**：实现向量库构建与 RAG 服务（`rag_service.py`、`vector_store.py`），并导入扫地机器人知识文档。
+- **第三阶段**：实现智能体逻辑（`ReactAgent` 及工具函数），打通从前端到 RAG 的完整闭环。
+- **第四阶段**：接入真实用户数据与报表生成能力，迭代优化对话体验与报告模板。
 
 ## 环境与运行 Environment & How to Run
 
